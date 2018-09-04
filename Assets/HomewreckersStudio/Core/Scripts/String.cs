@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Text;
 
 namespace HomewreckersStudio
 {
@@ -20,6 +21,21 @@ namespace HomewreckersStudio
             }
 
             return a.Equals(b, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /**
+         * Gets a hexadecimal string from a byte array.
+         */
+        public static string FromByteArray(byte[] array, int length)
+        {
+            var hex = new StringBuilder(array.Length * 2);
+
+            for (int i = 0; i < length; i++)
+            {
+                hex.AppendFormat("{0:x2}", array[i]);
+            }
+
+            return hex.ToString();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace HomewreckersStudio
     {
         /** Used to test requests. */
         [SerializeField]
-        private RequestTest m_requestTest;
+        private RequestTests m_requestTests;
 
         /** Used to display the downloaded sprite. */
         [SerializeField]
@@ -25,12 +25,6 @@ namespace HomewreckersStudio
 
         /** Used to verify the events were invoked. */
         private bool m_eventInvoked;
-
-        /** Used to test request success. */
-        private bool m_requestSuccess;
-
-        /** Used to test request failure. */
-        private bool m_requestFailure;
 
         /**
          * Gets the required components.
@@ -48,7 +42,7 @@ namespace HomewreckersStudio
             Debug.Log("Running unit tests");
 
             TestEvents();
-            TestRequest();
+            TestRequests();
             TestSingleton();
             TestSpriteDownload();
             TestStrings();
@@ -114,45 +108,11 @@ namespace HomewreckersStudio
         }
 
         /**
-         * Tests request success and failure.
+         * Defers to the request test object.
          */
-        private void TestRequest()
+        private void TestRequests()
         {
-            Debug.Log("Testing request");
-
-            // Tests request success
-            m_requestSuccess = false;
-            m_requestFailure = false;
-
-            m_requestTest.TestSuccess(OnRequestSuccess, OnRequestFailure);
-
-            Assert.IsTrue(m_requestSuccess, "Request success failed");
-            Assert.IsFalse(m_requestFailure, "Request success failed");
-
-            // Tests request failure
-            m_requestSuccess = false;
-            m_requestFailure = false;
-
-            m_requestTest.TestFailure(OnRequestSuccess, OnRequestFailure);
-
-            Assert.IsFalse(m_requestSuccess, "Request failure failed");
-            Assert.IsTrue(m_requestFailure, "Request failure failed");
-        }
-
-        /**
-         * Sets the request success flag.
-         */
-        private void OnRequestSuccess()
-        {
-            m_requestSuccess = true;
-        }
-
-        /**
-         * Sets the request failure flag.
-         */
-        private void OnRequestFailure()
-        {
-            m_requestFailure = true;
+            m_requestTests.Test();
         }
 
         /**
