@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Downloads an image and creates a sprite from it.
+     */
     public sealed class SpriteDownload : Request
     {
         /** Created when the image has downloaded. */

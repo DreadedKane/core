@@ -7,6 +7,9 @@ using System;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Used by the unit tests to test requests.
+     */
     public sealed class RequestTest : Request
     {
         /**

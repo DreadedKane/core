@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/HomewreckersStudio/Core/Scenes/Tests/UnitTests.unity
+    guid: 216582ccdc2da374e95b6102a72e954c
   m_configObjects: {}

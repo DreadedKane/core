@@ -5,9 +5,13 @@
 
 using System;
 using System.Text;
+using UnityEngine;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Helper class for string operations.
+     */
     public static class String
     {
         /**
@@ -21,6 +25,14 @@ namespace HomewreckersStudio
             }
 
             return a.Equals(b, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        /**
+         * Gets a string representation of a screen resolution.
+         */
+        public static string FromResolution(Resolution resolution)
+        {
+            return string.Format("{0}x{1} {2}Hz", resolution.width, resolution.height, resolution.refreshRate);
         }
 
         /**

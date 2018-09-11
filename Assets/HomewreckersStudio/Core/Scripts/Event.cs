@@ -7,6 +7,9 @@ using System;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Helper class for invoking events.
+     */
     public static class Event
     {
         /**

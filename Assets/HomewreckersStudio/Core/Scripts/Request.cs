@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Base class for asynchronous components.
+     */
     public abstract class Request : MonoBehaviour
     {
         /** Invoked when the request succeeds. */
@@ -76,6 +79,9 @@ namespace HomewreckersStudio
         }
     }
 
+    /**
+     * Base class for asynchronous components with one parameter.
+     */
     public abstract class Request<T> : Request
     {
         /** Invoked when the request succeeds with one parameter. */

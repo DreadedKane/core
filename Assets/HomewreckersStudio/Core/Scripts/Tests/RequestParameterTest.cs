@@ -7,6 +7,9 @@ using System;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Used by the unit tests to test requests with parameters.
+     */
     public sealed class RequestParameterTest : Request<bool>
     {
         /**

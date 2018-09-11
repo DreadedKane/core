@@ -5,6 +5,9 @@
 
 namespace HomewreckersStudio
 {
+    /**
+     * Used by the unit tests to test the singleton class.
+     */
     public sealed class SingletonTest : Singleton<SingletonTest>
     {
         /**

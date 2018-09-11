@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Base class for singleton game objects.
+     */
     public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         /** Used to access the object from any class. */

@@ -9,16 +9,25 @@ using UnityEngine.UI;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Performs unit tests on the module.
+     */
     [RequireComponent(typeof(SpriteDownload))]
     public sealed class CoreTests : MonoBehaviour
     {
-        /** Used to test requests. */
+        [Header("Required Components")]
+
         [SerializeField]
+        [Tooltip("Used to test requests.")]
         private RequestTests m_requestTests;
 
-        /** Used to display the downloaded sprite. */
         [SerializeField]
+        [Tooltip("Used to display the downloaded sprite.")]
         private Image m_spriteImage;
+
+        [SerializeField]
+        [Tooltip("Used to test transform angles.")]
+        private Transform m_transformAngleTest;
 
         /** Used to test sprite downloading. */
         private SpriteDownload m_spriteDownload;
@@ -46,6 +55,8 @@ namespace HomewreckersStudio
             TestSingleton();
             TestSpriteDownload();
             TestStrings();
+            TestPlatformDependent();
+            TestMath();
 
             Debug.Log("Unit tests complete");
         }
@@ -158,15 +169,83 @@ namespace HomewreckersStudio
         }
 
         /**
-         * Verifies we can compare two strings ignoring case.
+         * Verifies string comparison and resolution string.
          */
         private void TestStrings()
         {
             Debug.Log("Testing strings");
 
-            bool equals = String.CompareInsensitive("Testing", "tEsTiNg");
+            // Tests compare
+            bool compareResult = String.CompareInsensitive("Testing", "tEsTiNg");
 
-            Assert.IsTrue(equals, "Couldn't compare strings");
+            Assert.IsTrue(compareResult, "Couldn't compare strings");
+
+            // Tests resolution
+            Resolution resolution = new Resolution()
+            {
+                width = 1024,
+                height = 768,
+                refreshRate = 60
+            };
+
+            string resolutionString = String.FromResolution(resolution);
+
+            bool resolutionResult = resolutionString.Equals("1024x768 60Hz");
+
+            Assert.IsTrue(resolutionResult, "Invalid resolution string");
+        }
+
+        /**
+         * Tests platform dependent game objects.
+         */
+        private void TestPlatformDependent()
+        {
+            Debug.Log("Testing platform dependent objects");
+
+            GameObject windowsOnly = GameObject.FindWithTag("WindowsOnly");
+            GameObject androidOnly = GameObject.FindWithTag("AndroidOnly");
+
+#if UNITY_STANDALONE_WIN
+
+            Assert.IsNotNull(windowsOnly, "Platform dependent test failed");
+            Assert.IsNull(androidOnly, "Platform dependent test failed");
+
+#elif UNITY_ANDROID
+
+            Assert.IsNotNull(androidOnly, "Platform dependent test failed");
+            Assert.IsNull(windowsOnly, "Platform dependent test failed");
+
+#endif // UNITY_STANDALONE_WIN
+        }
+
+        /**
+         * Tests the math class.
+         */
+        private void TestMath()
+        {
+            Debug.Log("Testing math");
+
+            float tolerance = 0.001f;
+
+            // Tests angle clamping
+            float angle = Math.ClampAngle(1170f);
+
+            Assert.AreApproximatelyEqual(angle, 90f, tolerance, "Angle clamping test failed");
+
+            // Tests transform pitch
+            float pitch = Math.Pitch(m_transformAngleTest);
+
+            Assert.AreApproximatelyEqual(pitch, 20f, tolerance, "Transform pitch test failed");
+
+            // Tests transform yaw
+            float yaw = Math.Yaw(m_transformAngleTest);
+
+            Assert.AreApproximatelyEqual(yaw, 130f, tolerance, "Transform yaw test failed");
+
+            // Tests transform roll
+            float roll = Math.Roll(m_transformAngleTest);
+
+            Assert.AreApproximatelyEqual(roll, 60f, tolerance, "Transform roll test failed");
         }
     }
 }

@@ -8,6 +8,9 @@ using UnityEngine.Assertions;
 
 namespace HomewreckersStudio
 {
+    /**
+     * Performs unit tests on the request classes.
+     */
     [RequireComponent(typeof(RequestTest))]
     [RequireComponent(typeof(RequestParameterTest))]
     public sealed class RequestTests : MonoBehaviour
