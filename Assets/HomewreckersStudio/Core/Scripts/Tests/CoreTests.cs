@@ -12,14 +12,9 @@ namespace HomewreckersStudio
     /**
      * Performs unit tests on the module.
      */
-    [RequireComponent(typeof(SpriteDownload))]
     public sealed class CoreTests : MonoBehaviour
     {
         [Header("Required Components")]
-
-        [SerializeField]
-        [Tooltip("Used to test requests.")]
-        private RequestTests m_requestTests;
 
         [SerializeField]
         [Tooltip("Used to display the downloaded sprite.")]
@@ -29,6 +24,9 @@ namespace HomewreckersStudio
         [Tooltip("Used to test transform angles.")]
         private Transform m_transformAngleTest;
 
+        /** Used to test requests. */
+        private RequestTests m_requestTests;
+
         /** Used to test sprite downloading. */
         private SpriteDownload m_spriteDownload;
 
@@ -36,11 +34,13 @@ namespace HomewreckersStudio
         private bool m_eventInvoked;
 
         /**
-         * Gets the required components.
+         * Adds the required components.
          */
         private void Awake()
         {
-            m_spriteDownload = GetComponent<SpriteDownload>();
+            m_requestTests = new RequestTests();
+
+            m_spriteDownload = gameObject.AddComponent<SpriteDownload>();
         }
 
         /**

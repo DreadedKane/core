@@ -39,6 +39,8 @@ namespace HomewreckersStudio
             }
             else
             {
+                Debug.LogError("Singleton instance already exists.");
+
                 Destroy(gameObject);
             }
         }

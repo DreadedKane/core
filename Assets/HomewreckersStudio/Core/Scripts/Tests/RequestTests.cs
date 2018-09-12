@@ -9,17 +9,12 @@ using UnityEngine.Assertions;
 namespace HomewreckersStudio
 {
     /**
-     * Performs unit tests on the request classes.
+     * Performs unit tests on the request class.
      */
-    [RequireComponent(typeof(RequestTest))]
-    [RequireComponent(typeof(RequestParameterTest))]
-    public sealed class RequestTests : MonoBehaviour
+    public sealed class RequestTests
     {
-        /** Used to test requests. */
-        private RequestTest m_requestTest;
-
-        /** Used to test requests with one parameter. */
-        private RequestParameterTest m_requestParameterTest;
+        /** Used to invoke callbacks. */
+        private Request m_request;
 
         /** Used to verify success. */
         private bool m_success;
@@ -28,48 +23,19 @@ namespace HomewreckersStudio
         private bool m_failure;
 
         /**
+         * Creates the request object.
+         */
+        public RequestTests()
+        {
+            m_request = new Request();
+        }
+
+        /**
          * Runs the unit tests.
          */
         public void Test()
         {
             TestRequests();
-            TestParameters();
-        }
-
-        /**
-         * Gets the required components.
-         */
-        private void Awake()
-        {
-            m_requestTest = GetComponent<RequestTest>();
-            m_requestParameterTest = GetComponent<RequestParameterTest>();
-        }
-
-        /**
-         * Resets the flags.
-         */
-        private void Setup()
-        {
-            m_success = false;
-            m_failure = false;
-        }
-
-        /**
-         * Verifies the success event was invoked.
-         */
-        private void VerifySuccess()
-        {
-            Assert.IsTrue(m_success, "Request success failed");
-            Assert.IsFalse(m_failure, "Request success failed");
-        }
-
-        /**
-         * Verifies the failure event was invoked.
-         */
-        private void VerifyFailure()
-        {
-            Assert.IsFalse(m_success, "Request failure failed");
-            Assert.IsTrue(m_failure, "Request failure failed");
         }
 
         /**
@@ -82,66 +48,29 @@ namespace HomewreckersStudio
             // Tests request success
             Setup();
 
-            m_requestTest.TestSuccess(OnSuccess, OnFailure);
+            m_request.SetListeners(OnSuccess, OnFailure);
+
+            m_request.OnSuccess();
 
             VerifySuccess();
 
             // Tests request failure
             Setup();
 
-            m_requestTest.TestFailure(OnSuccess, OnFailure);
+            m_request.SetListeners(OnSuccess, OnFailure);
+
+            m_request.OnFailure();
 
             VerifyFailure();
         }
 
         /**
-         * Tests request success and failure with one parameter.
+         * Resets the flags.
          */
-        private void TestParameters()
+        private void Setup()
         {
-            Debug.Log("Testing request parameters");
-
-            // Tests request success
-            Setup();
-
-            m_requestParameterTest.TestSuccess(OnSuccess, OnFailure);
-
-            VerifySuccess();
-
-            // Tests request success with one parameter
-            Setup();
-
-            m_requestParameterTest.TestSuccess(OnParameterSuccess, OnFailure);
-
-            VerifySuccess();
-
-            // Tests request success with one parameter
-            Setup();
-
-            m_requestParameterTest.TestSuccess(OnParameterSuccess, OnParameterFailure);
-
-            VerifySuccess();
-
-            // Tests request failure
-            Setup();
-
-            m_requestParameterTest.TestFailure(OnSuccess, OnFailure);
-
-            VerifyFailure();
-
-            // Tests request failure with one parameter
-            Setup();
-
-            m_requestParameterTest.TestFailure(OnSuccess, OnParameterFailure);
-
-            VerifyFailure();
-
-            // Tests request failure with one parameter
-            Setup();
-
-            m_requestParameterTest.TestFailure(OnParameterSuccess, OnParameterFailure);
-
-            VerifyFailure();
+            m_success = false;
+            m_failure = false;
         }
 
         /**
@@ -161,19 +90,21 @@ namespace HomewreckersStudio
         }
 
         /**
-         * Sets the success flag.
+         * Verifies the success event was invoked.
          */
-        private void OnParameterSuccess(bool parameter)
+        private void VerifySuccess()
         {
-            m_success = parameter;
+            Assert.IsTrue(m_success, "Request success failed");
+            Assert.IsFalse(m_failure, "Request success failed");
         }
 
         /**
-         * Sets the failure flag.
+         * Verifies the failure event was invoked.
          */
-        private void OnParameterFailure(bool parameter)
+        private void VerifyFailure()
         {
-            m_failure = parameter;
+            Assert.IsFalse(m_success, "Request failure failed");
+            Assert.IsTrue(m_failure, "Request failure failed");
         }
     }
 }

@@ -12,10 +12,21 @@ namespace HomewreckersStudio
     /**
      * Downloads an image and creates a sprite from it.
      */
-    public sealed class SpriteDownload : Request
+    public sealed class SpriteDownload : MonoBehaviour
     {
+        /** Used to invoke callbacks. */
+        private Request m_request;
+
         /** Created when the image has downloaded. */
         private Sprite m_sprite;
+
+        /**
+         * Creates the request object.
+         */
+        private void Awake()
+        {
+            m_request = new Request();
+        }
 
         /**
          * Gets the downloaded sprite.
@@ -32,7 +43,7 @@ namespace HomewreckersStudio
          */
         public void Download(string url, Action success, Action failure)
         {
-            SetEvents(success, failure);
+            m_request.SetListeners(success, failure);
 
             if (m_sprite == null)
             {
@@ -40,7 +51,7 @@ namespace HomewreckersStudio
             }
             else
             {
-                OnSuccess();
+                m_request.OnSuccess();
             }
         }
 
@@ -63,14 +74,14 @@ namespace HomewreckersStudio
 
                 m_sprite = Sprite.Create(texture, rect, pivot);
 
-                OnSuccess();
+                m_request.OnSuccess();
             }
             else
             {
                 // Logs a warning
                 Debug.LogWarning("Sprite download failed: " + www.error);
 
-                OnFailure();
+                m_request.OnFailure();
             }
         }
     }
