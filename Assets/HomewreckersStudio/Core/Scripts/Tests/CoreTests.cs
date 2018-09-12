@@ -225,10 +225,24 @@ namespace HomewreckersStudio
         {
             Debug.Log("Testing math");
 
-            float tolerance = 0.001f;
+            // Tests validity
+            float value = 0.1234567f;
+
+            Assert.IsFalse(Math.IsValid(float.NaN), "Validity test failed");
+            Assert.IsFalse(Math.IsValid(float.PositiveInfinity), "Validity test failed");
+            Assert.IsTrue(Math.IsValid(value), "Validity test failed");
+
+            // Tests equality
+            float oneThird = 1f / 3f;
+
+            Assert.IsTrue(Math.Equals(oneThird, .333333f), "Equality test failed");
+
+            // Tests inverse square
+            Assert.AreEqual(Math.InverseSquare(.25f), .5f, "Inverse square test failed");
 
             // Tests angle clamping
             float angle = Math.ClampAngle(1170f);
+            float tolerance = 0.001f;
 
             Assert.AreApproximatelyEqual(angle, 90f, tolerance, "Angle clamping test failed");
 

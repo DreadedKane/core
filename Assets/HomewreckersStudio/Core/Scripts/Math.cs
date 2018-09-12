@@ -13,6 +13,39 @@ namespace HomewreckersStudio
     public static class Math
     {
         /**
+         * Verifies the value is a valid number.
+         */
+        public static bool IsValid(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        /**
+         * Checks for floating-point equality within a tolerance threshold.
+         */
+        public static bool Equals(double a, double b)
+        {
+            // Define the tolerance for variation in their values
+            var difference = System.Math.Abs(a * .00001);
+
+            // Compare the values
+            if (System.Math.Abs(a - b) <= difference)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * Returns the inverse of the value squared.
+         */
+        public static float InverseSquare(float value)
+        {
+            return Mathf.Pow(value, .5f);
+        }
+
+        /**
          * Clamps the angle between -180 and 180 degrees.
          */
         public static float ClampAngle(float angle)
