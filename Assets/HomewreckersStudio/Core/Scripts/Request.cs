@@ -19,12 +19,27 @@ namespace HomewreckersStudio
         private event Action m_failure;
 
         /**
+         * Is the request currently active?
+         */
+        public bool Active { get; private set; }
+
+        /**
          * Adds listeners to the callback delegates.
          */
         public void SetListeners(Action success, Action failure)
         {
-            m_success = success;
-            m_failure = failure;
+            if (Active)
+            {
+                m_success += success;
+                m_failure += failure;
+            }
+            else
+            {
+                Active = true;
+
+                m_success = success;
+                m_failure = failure;
+            }
         }
 
         /**
@@ -32,7 +47,12 @@ namespace HomewreckersStudio
          */
         public void OnSuccess()
         {
-            Event.Invoke(m_success);
+            if (Active)
+            {
+                Active = false;
+
+                Event.Invoke(m_success);
+            }
         }
 
         /**
@@ -40,7 +60,20 @@ namespace HomewreckersStudio
          */
         public void OnFailure()
         {
-            Event.Invoke(m_failure);
+            if (Active)
+            {
+                Active = false;
+
+                Event.Invoke(m_failure);
+            }
+        }
+
+        /**
+         * Flags the request as inactive.
+         */
+        public void Cancel()
+        {
+            Active = false;
         }
     }
 }
